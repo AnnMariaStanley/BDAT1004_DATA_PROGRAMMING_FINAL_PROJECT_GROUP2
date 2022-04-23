@@ -1,0 +1,202 @@
+
+<html>
+    <body style = "text-align:center;" id = "body">
+        <h1> Data Programming Final Project</h1>
+        <p id='a'></p>
+        <table align = "center"
+                id="table" border="1">
+        </table>
+
+        <div id="chart_div"></div>
+        <div id="chart_div2"></div>
+        <div id="chart_div3"></div>   
+        <div id="chart_div4"></div>
+
+        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+        <script type="text/javascript">
+            var stats;
+            fetch('/list')
+                .then(async function (response) {
+                return response.json();
+                })
+                .then(function (res) {
+                    console.log('GET response:');
+                    console.log(res[0]);
+                    stats = res; 
+                    //document.getElementById("a").innerHTML = stats[0]["Bank Name"]; 
+                    //document.getElementById('a').innerHTML = res[0];
+                    google.charts.load('current', {'packages':['corechart']});
+                    google.charts.setOnLoadCallback(drawChart);
+                    google.charts.setOnLoadCallback(drawChart2);
+                    google.charts.setOnLoadCallback(drawChart3);
+                    google.charts.setOnLoadCallback(drawChart4);
+                    
+                    function drawChart(){
+                                // Load the Visualization API and the corechart package.
+                        // Set a callback to run when the Google Visualization API is loaded.
+                        
+                        // Create the data table.
+                        var data = new google.visualization.DataTable();
+                        data.addColumn('string','Bank Name');
+                        data.addColumn('number', 'Total Volume (In Million)');
+                        for (let i = 0; i < stats.length; i++) {
+                            data.addRows([
+                            [stats[i]["Bank Name"], stats[i]["Total Volume (In Million)"]]
+                            ]);
+                        }
+                        // Set chart options
+                        var options = {'title':'Total volume share bank wise',
+                                    'width':900,
+                                    'height':900};
+
+                        // Instantiate and draw our chart, passing in some options.
+                        var chart = new google.visualization.BarChart (document.getElementById('chart_div'));
+                        chart.draw(data, options);
+                    }
+
+                    function drawChart2(){
+                                // Load the Visualization API and the corechart package.
+                        // Set a callback to run when the Google Visualization API is loaded.
+                        
+                        // Create the data table.
+                        var data = new google.visualization.DataTable();
+                        data.addColumn('string','Bank Name');
+                        data.addColumn('number', 'Debit Reversal Access %');
+                        for (let i = 0; i < stats.length; i++) {
+                            data.addRows([
+                            [stats[i]["Bank Name"], stats[i]["Debit Reversal Access %"]]
+                            ]);
+                        }
+                        // Set chart options
+                        var options = {'title':'Bank wise Debit Reversal Access',
+                                    'width':700,
+                                    'height':300};
+
+                        // Instantiate and draw our chart, passing in some options.
+                        var chart = new google.visualization.PieChart (document.getElementById('chart_div2'));
+                        chart.draw(data, options);
+                    }
+
+                    function drawChart3(){
+                                // Load the Visualization API and the corechart package.
+                        // Set a callback to run when the Google Visualization API is loaded.
+                        
+                        // Create the data table.
+                        var data = new google.visualization.DataTable();
+                        data.addColumn('string','Bank Name');
+                        data.addColumn('number', 'Technical Decline of Transaction');
+                        for (let i = 0; i < stats.length; i++) {
+                            data.addRows([
+                            [stats[i]["Bank Name"], stats[i]["TD %"]]
+                            ]);
+                        }
+                        // Set chart options
+                        var options = {'title':'Total volume share bank wise',
+                                    'width':900,
+                                    'height':500};
+
+                        // Instantiate and draw our chart, passing in some options.
+                        var chart = new google.visualization.LineChart (document.getElementById('chart_div3'));
+                        chart.draw(data, options);
+                    }
+
+                    function drawChart4(){
+                                // Load the Visualization API and the corechart package.
+                        // Set a callback to run when the Google Visualization API is loaded.
+                        
+                        // Create the data table.
+                        var data = new google.visualization.DataTable();
+                        data.addColumn('string','Bank Name');
+                        data.addColumn('number', 'Approved Transactions');
+                        for (let i = 0; i < stats.length; i++) {
+                            data.addRows([
+                            [stats[i]["Bank Name"], stats[i]["Approved %"]]
+                            ]);
+                        }
+                        // Set chart options
+                        var options = {'title':'Total approved percentage',
+                                    'width':900,
+                                    'height':500};
+
+                        // Instantiate and draw our chart, passing in some options.
+                        var chart = new google.visualization.LineChart (document.getElementById('chart_div4'));
+                        chart.draw(data, options);
+                    }
+                });
+        
+
+        // Callback that creates and populates a data table,
+        // instantiates the pie chart, passes in the data and
+        // draws it.
+        
+        </script>
+        
+            <!--Div that will hold the pie chart-->
+        
+ 
+      <!-- <script>      
+    //         var el_up = document.getElementById("GFG_UP");
+            
+    //         var list = [
+    //             { "col_1": "val_11", "col_3": "val_13" },
+    //             { "col_2": "val_22", "col_3": "val_23" },
+    //             { "col_1": "val_31", "col_3": "val_33" }
+    //         ];
+            
+    //         el_up.innerHTML = "Click on the button to create "
+    //                 + "the table from the JSON data.<br><br>"
+    //                 + JSON.stringify(list[0]) + "<br>"
+    //                 + JSON.stringify(list[1]) + "<br>"
+    //                 + JSON.stringify(list[2]);
+                
+    //         function constructTable(selector) {
+                
+    //             // Getting the all column names
+    //             var cols = Headers(list, selector);
+
+    //             // Traversing the JSON data
+    //             for (var i = 0; i < list.length; i++) {
+    //                 var row = $('<tr/>');
+    //                 for (var colIndex = 0; colIndex < cols.length; colIndex++)
+    //                 {
+    //                     var val = list[i][cols[colIndex]];
+                        
+    //                     // If there is any key, which is matching
+    //                     // with the column name
+    //                     if (val == null) val = "";
+    //                         row.append($('<td/>').html(val));
+    //                 }
+                    
+    //                 // Adding each row to the table
+    //                 $(selector).append(row);
+    //             }
+    //         }
+            
+    //         function Headers(list, selector) {
+    //             var columns = [];
+    //             var header = $('<tr/>');
+                
+    //             for (var i = 0; i < list.length; i++) {
+    //                 var row = list[i];
+                    
+    //                 for (var k in row) {
+    //                     if ($.inArray(k, columns) == -1) {
+    //                         columns.push(k);
+                            
+    //                         // Creating the header
+    //                         header.append($('<th/>').html(k));
+    //                     }
+    //                 }
+    //             }
+                
+    //             // Appending the header to the table
+    //             $(selector).append(header);
+    //                 return columns;
+    //         }	
+	// </script>
+
+--> 
+    
+           
+    </body>
+</html>
